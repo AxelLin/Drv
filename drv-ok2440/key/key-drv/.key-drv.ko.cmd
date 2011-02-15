@@ -1,0 +1,1 @@
+cmd_/home/bamboo/work/ok2440/Drv/drv-ok2440/key/key-drv/key-drv.ko := arm-linux-ld -EL -r  -T /home/bamboo/work/ok2440/Kernel/linux-2.6.32.2/scripts/module-common.lds --build-id -o /home/bamboo/work/ok2440/Drv/drv-ok2440/key/key-drv/key-drv.ko /home/bamboo/work/ok2440/Drv/drv-ok2440/key/key-drv/key-drv.o /home/bamboo/work/ok2440/Drv/drv-ok2440/key/key-drv/key-drv.mod.o
