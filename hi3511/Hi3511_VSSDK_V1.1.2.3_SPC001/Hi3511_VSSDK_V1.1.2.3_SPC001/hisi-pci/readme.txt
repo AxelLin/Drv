@@ -1,1 +1,0 @@
-Replace file 'Hi3511_VSSDK_V1.1.2.3\source\drv\hisi-pci\hi_pcicom_v2\hios_pci\drv\proto_common.c' with this file.

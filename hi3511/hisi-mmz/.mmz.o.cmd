@@ -1,1 +1,0 @@
-cmd_/work/hi3511/drv/hisi-mmz/mmz.o := arm-hismall-linux-ld -EL   -r -o /work/hi3511/drv/hisi-mmz/mmz.o /work/hi3511/drv/hisi-mmz/media-mem.o /work/hi3511/drv/hisi-mmz/kcom.o /work/hi3511/drv/hisi-mmz/mmz-userdev.o /work/hi3511/drv/hisi-mmz/arm926-cacheflush.o
