@@ -1,0 +1,10 @@
+---- 0xcf Æ¥Åä (9 in 2 ÎÄ¼þ) ----
+tw2865.SearchResults (e:\hi3511\tw2865\source insight):---- 0xcf Æ¥Åä (#count#) ----
+Tw2865.c:	tmp = tw2865_byte_read(TW2865A_I2C_ADDR,0xcf);
+Tw2865.c:	tw2865_byte_write(TW2865A_I2C_ADDR,0xcf,tmp);
+Tw2865.c:	tw2865_byte_write(TW2865B_I2C_ADDR,0xcf,tmp);
+Tw2865.c:	tmp = tw2865_byte_read(TW2865A_I2C_ADDR,0xcf);
+Tw2865.c:	tw2865_byte_write(TW2865A_I2C_ADDR,0xcf,0x00);
+Tw2865.c:	tw2865_byte_write(Tw2865I2cAddr[0], 0xcf, 0x80);
+Tw2865.c:	tw2865_byte_write(Tw2865I2cAddr[1], 0xcf, 0x80);
+Tw2865.c:	tw2865_byte_write(addr, 0xcf, 0x80);

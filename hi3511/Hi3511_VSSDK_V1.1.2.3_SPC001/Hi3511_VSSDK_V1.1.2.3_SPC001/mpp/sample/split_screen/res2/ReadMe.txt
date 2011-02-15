@@ -1,0 +1,1 @@
+Split_screen Sample's second solution of match colors, you can change the directory as the displayed one.

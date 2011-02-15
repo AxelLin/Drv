@@ -1,0 +1,38 @@
+# 2008.3.8 c42025
+# define all global environment for all samples
+#define cross compiler
+export CROSS:=arm-hismall-linux-
+export CC:=$(CROSS)gcc
+export AR:=$(CROSS)ar
+
+OSDRV:= 
+SDK_DIR:=$(PWD)/../../../..
+PUB_PATH:=$(SDK_DIR)/pub
+DRV_PATH:=$(SDK_DIR)/$(OSDRV)/source/drv
+MPP_PATH:=$(SDK_DIR)/mpp
+LIB_PATH:=$(MPP_PATH)/lib.rel
+LIBS := $(LIB_PATH)/libmpi.a \
+	$(LIB_PATH)/lib_VoiceEngine.a \
+ 	$(LIB_PATH)/lib_amr_spc.a \
+	$(LIB_PATH)/lib_amr_fipop.a \
+	$(LIB_PATH)/lib_aec.a \
+	$(LIB_PATH)/lib_aacdec.a \
+	$(LIB_PATH)/lib_aacenc.a \
+	$(LIB_PATH)/libloadbmp.a \
+	$(LIB_PATH)/libtde.a
+
+INC_PATH:=-I$(PUB_PATH)/include \
+	-I$(MPP_PATH)/include \
+	-I$(MPP_PATH)/include/mkp \
+	-I$(MPP_PATH)/sample
+
+#only kernle need this
+LINUXROOT:=$(PUB_PATH)/kbuild-FULL_REL
+
+DBG?=N
+ifeq ($(DBG),Y)
+export HI_MAKE_DBG:=HI_DEBUG
+export HI_SUPPORT_GDB:=YES
+else
+export HI_MAKE_DBG:=HI_RELEASE
+endif

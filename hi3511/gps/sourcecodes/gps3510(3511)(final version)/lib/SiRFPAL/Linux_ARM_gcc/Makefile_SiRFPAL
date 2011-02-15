@@ -1,0 +1,205 @@
+# -------------------------------------------------------------------------
+# These are configurable options:
+# -------------------------------------------------------------------------
+
+BUILDPATH = ./../../../sirf/pal/Posix
+SRCPATH = ./../../../sirf/pal/Posix
+OBJDIR = $(BUILDPATH)/objs
+LIBDIR = libs
+DEPDIR = $(BUILDPATH)/deps
+
+#  
+AR = arm-hismall-linux-ar
+
+
+#  
+RANLIB = arm-hismall-linux-ranlib
+
+
+# C compiler 
+CC = arm-hismall-linux-gcc
+
+
+# C++ compiler 
+CXX = arm-hismall-linux-g++
+
+
+# Standard flags for CC 
+CFLAGS =
+
+
+# Standard flags for C++ 
+CXXFLAGS =
+
+
+# Standard preprocessor flags (common for CC and CXX) 
+CPPFLAGS = 
+
+
+# Standard linker flags 
+LDFLAGS = -lpthread -lrt 
+
+
+### Variables: ###
+
+
+CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD
+
+
+SIRF_PAL_CFLAGS = -DTOOLCHAIN_GCC -DOS_POSIX -DNDEBUG -DA_160BRANCH \
+	-DFAST_CN0 -DCS_NOT_NEEDED -DSCALABLE_TRACKING_LOOPS\
+	-DSIRF_HOST  \
+	-DDSP_96K -DALLOW_DISABLE_BE -DMAX_CLOCK_DRIFT=900 \
+	-DWEAK_TCXO -DTASK_PERIOD=0 -DE911 -DFLASH -DMULTIPLE_FREQ_XFER \
+	-DSS3NAV -DMP_DETECTOR -DVARIANT_GSP3DTHOST -DNL_BT_CSV \
+	-DEXTENDED_EPH -DGSW_EE -DNAV_BIT_STRIPPING -DNAV_BIT_STRIPPING_HI \
+	-DEPH_BY_WORD -DEPH_DBL_COLLECT -DDECODE_BINARYLOGS -D_ENDIAN_LITTLE \
+	-DSIRF_EXT_LOG\
+	-I$(SRCPATH)/../../include \
+	-I$(SRCPATH) \
+	-I$(SRCPATH)/.. \
+	-I$(SRCPATH)/../../SiRFNavIII/cfg \
+	-I$(SRCPATH)/../../SiRFNavIII/include \
+	-I$(SRCPATH)/../../SiRFLPL3/cfg \
+	-I$(SRCPATH)/../../SiRFCLM/cfg \
+	-I$(SRCPATH)/../../SiRFNav_Demo/cfg \
+	-I../../../../platform \
+	-I$(SRCPATH)/../../util/demo \
+	-I$(SRCPATH)/../../util/demo_lpl3_cmdr \
+	-I$(SRCPATH)/../../util/codec \
+	-I$(SRCPATH)/../../util/ext \
+	-I$(SRCPATH)/../../util/proto \
+	-I$(SRCPATH)/../../util/test \
+	$(CPPFLAGS) $(CFLAGS)
+
+SIRF_PAL_OBJECTS =  \
+	$(OBJDIR)/sirf_pal_sirf_pal.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_hw_frequency_aiding.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_mem_libc.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_mem_tlsf.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_time_libc_crt.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_time_libc_full.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_com_uart.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_hw_on.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_hw_reset.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_log_file.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_mutex.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_semaphore.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_thread.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_os_time.o \
+	$(OBJDIR)/sirf_pal_sirf_pal_storage_file.o \
+
+
+### Conditionally set variables: ###
+
+
+### Targets: ###
+
+
+all: makedir libs/libsirf_pal.a 
+
+
+install: all
+
+
+
+
+uninstall: 
+
+
+makedir:
+	@set -e; \
+	mkdir -p libs $(OBJDIR)
+
+
+clean: 
+
+	rm -f $(OBJDIR)/*.o
+
+	rm -f $(OBJDIR)/*.d
+
+	rm -f libs/libsirf_pal.a
+
+	rm -f ../../../app/Linux/SiRFAGPSLSMdemo/libs/libsirf_pal.a
+
+
+libs/libsirf_pal.a: $(SIRF_PAL_OBJECTS)
+
+	rm -f $@
+
+	$(AR) rcu $@ $(SIRF_PAL_OBJECTS)
+
+	$(RANLIB) $@
+
+
+$(OBJDIR)/sirf_pal_sirf_pal.o: $(SRCPATH)/../Common/sirf_pal.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_hw_frequency_aiding.o: $(SRCPATH)/../Common/sirf_pal_hw_frequency_aiding.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_mem_libc.o: $(SRCPATH)/../Common/sirf_pal_os_mem_libc.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_mem_tlsf.o: $(SRCPATH)/../Common/sirf_pal_os_mem_tlsf.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_time_libc_crt.o: $(SRCPATH)/../Common/sirf_pal_os_time_libc_crt.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_time_libc_full.o: $(SRCPATH)/../Common/sirf_pal_os_time_libc_full.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_com_uart.o: $(SRCPATH)/sirf_pal_com_uart.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_hw_on.o: $(SRCPATH)/sirf_pal_hw_on.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_hw_reset.o: $(SRCPATH)/sirf_pal_hw_reset.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_log_file.o: $(SRCPATH)/sirf_pal_log_file.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_mutex.o: $(SRCPATH)/sirf_pal_os_mutex.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_semaphore.o: $(SRCPATH)/sirf_pal_os_semaphore.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_thread.o: $(SRCPATH)/sirf_pal_os_thread.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_os_time.o: $(SRCPATH)/sirf_pal_os_time.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+$(OBJDIR)/sirf_pal_sirf_pal_storage_file.o: $(SRCPATH)/sirf_pal_storage_file.c
+
+	$(CC) -c -o $@ $(SIRF_PAL_CFLAGS) $(CPPDEPS) $<
+
+
+
+
+
+.PHONY: all install uninstall clean
+
+
+
+# Dependencies tracking:
+-include ./*.d
+
