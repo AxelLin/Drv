@@ -1,0 +1,1 @@
+cmd_/work/hi3511/drv/sdio/sd_mmc_sdio.o := arm-hismall-linux-ld -EL   -r -o /work/hi3511/drv/sdio/sd_mmc_sdio.o /work/hi3511/drv/sdio//driver_mmc/Host_Drv/host.o /work/hi3511/drv/sdio//driver_mmc/Bus_Drv/Bus.o

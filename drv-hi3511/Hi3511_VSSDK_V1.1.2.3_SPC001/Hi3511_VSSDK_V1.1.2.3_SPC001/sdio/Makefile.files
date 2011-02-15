@@ -1,0 +1,11 @@
+#
+# Makefile for the Linux kernel device drivers.
+#
+# 2006-04-03, designed by huawei corp.
+# written as interface module's Makefile.
+#
+
+include $(PWD)/driver_mmc/Makefile
+include $(PWD)/himci/Makefile
+#include $(PWD)/mmc/Makefile
+
