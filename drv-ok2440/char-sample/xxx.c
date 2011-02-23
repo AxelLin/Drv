@@ -10,12 +10,15 @@
 #include <asm/io.h>
 #include <asm/system.h>
 #include <asm/uaccess.h>
+#include <linux/device.h>
+#include <platform_device.h>
 
 #define GLOBALMEM_SIZE 0x1000
 #define MEM_CLEAR      0x1
 #define GLOBALMEM_MAJOR 233
 
 static int globalmem_major = GLOBALMEM_MAJOR;
+static struct class *globalmem_class;
 
 struct globalmem_dev
 {
@@ -188,7 +191,14 @@ int globalmem_init(void)
     }
 
   memset(globalmem_devp,0,sizeof(struct globalmem_dev));
-  
+  globalmem_class = class_create(THIS_MODULE,"globalmen"); 
+  if(IS_ERR(globalmem_class))
+	{
+		printk("Failed in creating globalmem_class");
+		return -1;
+	}
+
+  class_device_create(globalmem_class,NULL,MKDEV(globalmem_major,0),NULL,"globalmen%d",0);
   globalmem_setup_cdev(globalmem_devp,0);
   printk(KERN_INFO "Moudle init OK!\n");
   return 0;
