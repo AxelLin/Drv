@@ -13,8 +13,8 @@ PWD       :=$(shell pwd)
 
 all:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
+	cp -f xr20m1172_gpio.ko  /home/bamboo/work/hi3511/rootbox
 	
-
 #install:
 #	install -d $(INSTALLDIR) 
 #	install -c $(TARGET).O $(INSTALLDIR)

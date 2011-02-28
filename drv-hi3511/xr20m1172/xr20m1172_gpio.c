@@ -146,30 +146,30 @@ static const int reg_info[27][3] = {
 	{0x0, 20, 1},		//RHR
 	{0x0, 20, 2},		//THR
 	{0x0, 60, 3},		//DLL
-	{0x8, 60, 3},		//DLM
-	{0x10, 50, 3},		//DLD
-	{0x8, 20, 3},		//IER:bit[4-7] needs efr[4] ==1,but we dont' access them now
-	{0x10, 20, 1},		//ISR:bit[4/5] needs efr[4] ==1,but we dont' access them now
-	{0x10, 20, 2},		//FCR :bit[4/5] needs efr[4] ==1,but we dont' access them now
-	{0x18, 10, 3},		//LCR
-	{0x20, 40, 3},		//MCR :bit[2/5/6] needs efr[4] ==1,but we dont' access them now
-	{0x28, 40, 1},		//LSR
-	{0x30, 70, 1},		//MSR
-	{0x38, 70, 3},		//SPR
-	{0x30, 80, 3},		//TCR
-	{0x38, 80, 3},		//TLR
-	{0x40, 20, 1},		//TXLVL
-	{0x48, 20, 1},		//RXLVL
-	{0x50, 20, 3},		//IODir
-	{0x58, 20, 3},		//IOState
-	{0x60, 20, 3},		//IOIntEna
-	{0x70, 20, 3},		//IOControl
-	{0x78, 20, 3},		//EFCR
-	{0x10, 30, 3},		//EFR
-	{0x20, 30, 3},		//Xon1
-	{0x28, 30, 3},		//Xon2
-	{0x30, 30, 3},		//Xoff1
-	{0x38, 30, 3},		//Xoff2
+	{0x1, 60, 3},		//DLM
+	{0x2, 50, 3},		//DLD
+	{0x1, 20, 3},		//IER:bit[4-7] needs efr[4] ==1,but we dont' access them now
+	{0x2, 20, 1},		//ISR:bit[4/5] needs efr[4] ==1,but we dont' access them now
+	{0x2, 20, 2},		//FCR :bit[4/5] needs efr[4] ==1,but we dont' access them now
+	{0x03, 10, 3},		//LCR
+	{0x04, 40, 3},		//MCR :bit[2/5/6] needs efr[4] ==1,but we dont' access them now
+	{0x05, 40, 1},		//LSR
+	{0x06, 70, 1},		//MSR
+	{0x07, 70, 3},		//SPR
+	{0x06, 80, 3},		//TCR
+	{0x07, 80, 3},		//TLR
+	{0x08, 20, 1},		//TXLVL
+	{0x09, 20, 1},		//RXLVL
+	{0x0A, 20, 3},		//IODir
+	{0x0B, 20, 3},		//IOState
+	{0x0C, 20, 3},		//IOIntEna
+	{0x0E, 20, 3},		//IOControl
+	{0x0F, 20, 3},		//EFCR
+	{0x02, 30, 3},		//EFR
+	{0x04, 30, 3},		//Xon1
+	{0x05, 30, 3},		//Xon2
+	{0x06, 30, 3},		//Xoff1
+	{0x07, 30, 3},		//Xoff2
 };
 
 
@@ -393,7 +393,7 @@ static int i2c_gpio_probe(struct i2c_adapter *adapter,int address, int kind)
 	i2c_gpio_client->flags     = I2C_DF_NOTIFY;
 	
 	strncpy(i2c_gpio_client->name,I2C_GPIO_DRIVER_NAME,I2C_NAME_SIZE);
-	printk("I am here1 !");
+//	printk("I am here1 !");
 	if((ret = i2c_attach_client(i2c_gpio_client)) != 0)
 		{
 		printk("I am here3 !");
@@ -477,7 +477,7 @@ static int __init xr20m1172_gpio_init(void)
 			
 			return err;
 		}
-	
+
 	return 0;
 
 fail_malloc: unregister_chrdev_region(devno,1);
@@ -489,6 +489,7 @@ static void __exit xr20m1172_gpio_exit(void)
 {
 	cdev_del(&i2c_gpio_port->cdev);
 	kfree(i2c_gpio_port);
+ 	i2c_del_driver(&i2c_gpio_driver);
 	unregister_chrdev_region(MKDEV(i2c_gpio_major,0),1);
 	PRINTK_I2C_GPIO("unregister i2c  gpio driver !");
 		
