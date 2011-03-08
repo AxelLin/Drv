@@ -90,8 +90,12 @@ static u8 cached_efr[2];
 static u8 cached_mcr[2];
 static int i2c_gpio_major = I2C_GPIO_MAJOR;
 
+#define XR20M1172_CLOCK			14.7098
+#define PRESCALER 					1
+#define I2C_BAUD_RATE			115200
+#define SAMPLE_RATE				16
 
- float  required_divisor =7.98 ;
+
 
 
 
@@ -215,51 +219,7 @@ static const int reg_info[27][3] = {
 struct xr20m1172_port *i2c_gpio_port;
 
 
-/*
-unsigned char i2c_gpio_byte_read(unsigned char chip_addr , unsigned char chip_offset)
-{
-	int i;
-	unsigned int have_retried =0;
-	
-	unsigned char 	buf[1];
-	struct i2c_msg  	msg[2];
-	
-	msg[0].addr	= chip_addr >> 1;
-	msg[0].flags	= 0;
-	msg[0].buf	= &chip_offset;
-	msg[0].len	= 1;
-
-	msg[1].addr	= chip_addr >> 1;
-	msg[1].flags	= I2C_M_RD;		
-	msg[1].buf	= buf;
-	msg[1].len	=1;
-	
-	down(&i2c_gpio_mutex);
-	for(i=0;i < 5; i++)
-		{
-		    if(have_retried == 0)
-		    	{
-			   if(i2c_transfer(save_client->adapter,msg,2) <0)
-				{
-					PRINTK_I2C_GPIO("i2c transfer failed in i2c byte read");
-				}
-			   else
-				{
-					have_retried = 1;
-					break;
-				}
-		    	}
-		}
-	up(&i2c_gpio_mutex);
-	if(i == 5)
-		{
-			PRINTK_I2C_GPIO("read i2c gpio failed 1");
-			return -EAGAIN;
-		}
-	return buf[0];
-	
-}
-*/
+unsigned int i2c_set_baudrate(unsigned  int baudrate);
 
 unsigned char i2c_gpio_byte_read(unsigned char chip_addr, unsigned char addr)
 {
@@ -326,54 +286,7 @@ unsigned int i2c_gpio_byte_write(unsigned char chip_addr, unsigned char addr, un
 		return 0;	
 }
 
-/*
-unsigned char i2c_gpio_byte_write(unsigned char chip_addr , unsigned char chip_offset,unsigned char value)
-{
-	int i;
-	unsigned int have_retried =0;
-	
-	unsigned char 	buf[1];
-	struct i2c_msg  	msg[2];
-	buf[0] = value;
-	
-	
-	msg[0].addr	= chip_addr >> 1;
-	msg[0].flags	= I2C_M_WR;
-	msg[0].buf	= &chip_offset;
-	msg[0].len	= 1;
 
-	msg[1].addr	= chip_addr >> 1;
-	msg[1].flags	= I2C_M_WR;		
-	msg[1].buf	= buf;
-	msg[1].len	=1;
-	
-	down(&i2c_gpio_mutex);
-	for(i=0;i < 5; i++)
-		{
-		    if(have_retried == 0)
-		    	{
-			   if(i2c_transfer(save_client->adapter,msg,2) <0)
-				{
-					PRINTK_I2C_GPIO("i2c transfer failed in i2c byte read");
-				}
-			   else
-				{
-					have_retried = 1;
-					break;
-				}
-		    	}
-		}
-	up(&i2c_gpio_mutex);
-	if(i == 5)
-		{
-			PRINTK_I2C_GPIO("write i2c gpio failed 1");
-			return -EAGAIN;
-		}
-	return 0;
-	
-}
-
-*/
 
 
 static int i2c_gpio_open(struct inode *inode, struct file *filp)
@@ -541,6 +454,41 @@ static struct i2c_driver  i2c_gpio_driver =
 	.detach_client		= xr20m1172_gpio_detach,
 };
 
+unsigned int i2c_set_baudrate(unsigned  int baudrate)
+{
+	unsigned char prescale;
+	unsigned char samplemode;
+	unsigned char dld_reg;
+	unsigned int baud = baudrate;
+	unsigned int temp;
+
+	unsigned int  required_divisor2;
+	unsigned int  required_divisor ;
+	
+	required_divisor2  = (XR20M1172_CLOCK * 16)/(PRESCALER * SAMPLE_RATE * baud);
+	required_divisor    = required_divisor2 / 16;
+	dld_reg	= required_divisor2   - required_divisor*16;
+	dld_reg   &= ~(0x3 << 4);  //16X
+
+	
+	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_DLM][0], required_divisor >> 8);
+	temp = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_DLM][0]);
+	PRINTK_I2C_GPIO("i2c_gpio read DLM  data is :%02x\n",temp);
+
+	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_DLL][0], required_divisor &0xff);
+	temp = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_DLL][0]);
+	PRINTK_I2C_GPIO("i2c_gpio read DLL  data is :%02x\n",temp);
+
+	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_DLD][0], dld_reg);
+	temp = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_DLD][0]);
+	PRINTK_I2C_GPIO("i2c_gpio read DLD  data is :%02x\n",temp);
+
+	
+
+	return 0;
+}
+
+
 void i2c_gpio_init(void)
 {
 	unsigned int err;
@@ -567,13 +515,7 @@ void i2c_gpio_init(void)
 /* DLD  */	
 	
 
-	temp = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_DLD][0]);
-	PRINTK_I2C_GPIO("i2c_gpio read DLD  data is :%02x\n",temp);
-	temp  &=  ~(0x3 << 4);
-	
-	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_DLD][0], temp);
-	PRINTK_I2C_GPIO("i2c_gpio read DLD  data is :%02x\n",temp);
-
+	i2c_set_baudrate(115200);
 
 
 	
@@ -582,8 +524,6 @@ void i2c_gpio_init(void)
 	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_LCR][0], 0x03);
 	temp = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_LCR][0]);
 	PRINTK_I2C_GPIO("i2c_gpio read LCR  data is :%02x\n",temp);
-
-
 
 
 
