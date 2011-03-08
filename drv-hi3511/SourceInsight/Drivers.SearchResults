@@ -1,0 +1,179 @@
+---- request_irq Matches (178 in 128 files) ----
+21285.c (z:\hi3511\linux-2.6.14\drivers\serial):	ret = request_irq(IRQ_CONRX, serial21285_rx_chars, 0,
+21285.c (z:\hi3511\linux-2.6.14\drivers\serial):		ret = request_irq(IRQ_CONTX, serial21285_tx_chars, 0,
+3c359.c (z:\hi3511\linux-2.6.14\drivers\net\tokenring):	if(request_irq(dev->irq, &xl_interrupt, SA_SHIRQ , "3c359", dev)) {
+3c501.c (z:\hi3511\linux-2.6.14\drivers\net):	if ((retval = request_irq(dev->irq, &el_interrupt, 0, dev->name, dev)))
+3c503.c (z:\hi3511\linux-2.6.14\drivers\net):	    if (request_irq (*irqp, NULL, 0, "bogus", dev) != -EBUSY) {
+3c503.c (z:\hi3511\linux-2.6.14\drivers\net):		    && ((retval = request_irq(dev->irq = *irqp, 
+3c503.c (z:\hi3511\linux-2.6.14\drivers\net):	if ((retval = request_irq(dev->irq, ei_interrupt, 0, dev->name, dev))) {
+3c505.c (z:\hi3511\linux-2.6.14\drivers\net):	if ((retval = request_irq(dev->irq, &elp_interrupt, 0, dev->name, dev))) {
+3c507.c (z:\hi3511\linux-2.6.14\drivers\net):	irqval = request_irq(irq, &el16_interrupt, 0, DRV_NAME, dev);
+3c509.c (z:\hi3511\linux-2.6.14\drivers\net):	i = request_irq(dev->irq, &el3_interrupt, 0, dev->name, dev);
+3c515.c (z:\hi3511\linux-2.6.14\drivers\net):		    || request_irq(dev->irq, &corkscrew_interrupt, 0,
+3c515.c (z:\hi3511\linux-2.6.14\drivers\net):	} else if (request_irq(dev->irq, &corkscrew_interrupt, SA_SHIRQ,
+3c523.c (z:\hi3511\linux-2.6.14\drivers\net):	ret = request_irq(dev->irq, &elmc_interrupt, SA_SHIRQ | SA_SAMPLE_RANDOM,
+3c527.c (z:\hi3511\linux-2.6.14\drivers\net):	err = request_irq(dev->irq, &mc32_interrupt, SA_SHIRQ | SA_SAMPLE_RANDOM, DRV_NAME, dev);
+3c59x.c (z:\hi3511\linux-2.6.14\drivers\net):		if (request_irq(dev->irq, vp->full_bus_master_rx ?
+3c59x.c (z:\hi3511\linux-2.6.14\drivers\net):	if ((retval = request_irq(dev->irq, vp->full_bus_master_rx ?
+3w-9xxx.c (z:\hi3511\linux-2.6.14\drivers\scsi):	retval = request_irq(pdev->irq, twa_interrupt, SA_SHIRQ, "3w-9xxx", tw_dev);
+3w-xxxx.c (z:\hi3511\linux-2.6.14\drivers\scsi):	retval = request_irq(pdev->irq, tw_interrupt, SA_SHIRQ, "3w-xxxx", tw_dev);
+53c700.txt (z:\hi3511\linux-2.6.14\documentation\scsi):request_irq(irq, NCR_700_intr, <irq flags>, <driver name>, host);
+53c7xx.c (z:\hi3511\linux-2.6.14\drivers\scsi):    if (request_irq(host->irq, NCR53c7x0_intr, SA_SHIRQ, "53c7xx", host))
+68328serial.c (z:\hi3511\linux-2.6.14\drivers\serial):	    if (request_irq(uart_irqs[i],
+68360serial.c (z:\hi3511\linux-2.6.14\drivers\serial):			/*request_irq(IRQ_MACHSPEC | state->irq, rs_360_interrupt, */
+68360serial.c (z:\hi3511\linux-2.6.14\drivers\serial):			request_irq(state->irq, rs_360_interrupt,
+7990.c (z:\hi3511\linux-2.6.14\drivers\net):        if (request_irq(lp->irq, lance_interrupt, 0, lp->name, dev))
+8139cp.c (z:\hi3511\linux-2.6.14\drivers\net):	rc = request_irq(dev->irq, cp_interrupt, SA_SHIRQ, dev->name, dev);
+8139too.c (z:\hi3511\linux-2.6.14\drivers\net):	retval = request_irq (dev->irq, rtl8139_interrupt, SA_SHIRQ, dev->name, dev);
+8250.c (z:\hi3511\linux-2.6.14\drivers\serial): *   share_irqs - whether we pass SA_SHIRQ to request_irq().  This option
+8250.c (z:\hi3511\linux-2.6.14\drivers\serial):		ret = request_irq(up->port.irq, serial8250_interrupt,
+8250_kgdb.c (z:\hi3511\linux-2.6.14\drivers\serial):	if (request_irq(current_port->irq, kgdb8250_interrupt, SA_SHIRQ,
+82596.c (z:\hi3511\linux-2.6.14\drivers\net):	if (request_irq(dev->irq, i596_interrupt, 0, "i82596", dev)) {
+82596.c (z:\hi3511\linux-2.6.14\drivers\net):		if (request_irq(0x56, i596_error, 0, "i82596_error", dev))
+A100u2w.c (z:\hi3511\linux-2.6.14\drivers\scsi):	error = request_irq(pdev->irq, inia100_intr, SA_SHIRQ,
+A2065.c (z:\hi3511\linux-2.6.14\drivers\net):	ret = request_irq(IRQ_AMIGA_PORTS, lance_interrupt, SA_SHIRQ,
+A2091.c (z:\hi3511\linux-2.6.14\drivers\scsi):	request_irq(IRQ_AMIGA_PORTS, a2091_intr, SA_SHIRQ, "A2091 SCSI",
+A3000.c (z:\hi3511\linux-2.6.14\drivers\scsi):    if (request_irq(IRQ_AMIGA_PORTS, a3000_intr, SA_SHIRQ, "A3000 SCSI",
+Aaci.c (z:\hi3511\linux-2.6.14\sound\arm):	ret = request_irq(aaci->dev->irq[0], aaci_irq, SA_SHIRQ|SA_INTERRUPT,
+Abyss.c (z:\hi3511\linux-2.6.14\drivers\net\tokenring):	ret = request_irq(pdev->irq, tms380tr_interrupt, SA_SHIRQ,
+Ac3200.c (z:\hi3511\linux-2.6.14\drivers\net):	retval = request_irq(dev->irq, ei_interrupt, 0, DRV_NAME, dev);
+Acenic.c (z:\hi3511\linux-2.6.14\drivers\net):	ecode = request_irq(pdev->irq, ace_interrupt, SA_SHIRQ,
+Acornscsi.c (z:\hi3511\linux-2.6.14\drivers\scsi\arm):	ret = request_irq(host->irq, acornscsi_intr, SA_INTERRUPT, "acornscsi", ashost);
+Act2000_isa.c (z:\hi3511\linux-2.6.14\drivers\isdn\act2000):	if (!request_irq(irq, &act2000_isa_interrupt, 0, card->regname, NULL)) {
+Ad1816.c (z:\hi3511\linux-2.6.14\sound\oss):	if (request_irq(devc->irq, ad1816_interrupt,0,
+Ad1816a_lib.c (z:\hi3511\linux-2.6.14\sound\isa\ad1816a):	if (request_irq(irq, snd_ad1816a_interrupt, SA_INTERRUPT, "AD1816A", (void *) chip)) {
+Ad1848.c (z:\hi3511\linux-2.6.14\sound\oss):		if (request_irq(devc->irq, adintr, 0, devc->name, (void *)my_dev) < 0)
+Ad1848_lib.c (z:\hi3511\linux-2.6.14\sound\isa\ad1848):	if (request_irq(irq, snd_ad1848_interrupt, SA_INTERRUPT, "AD1848", (void *) chip)) {
+Ad1889.c (z:\hi3511\linux-2.6.14\sound\oss):	if (request_irq(pcidev->irq, ad1889_interrupt, SA_SHIRQ, DEVNAME, dev) != 0) {
+Ad1889.c (z:\hi3511\linux-2.6.14\sound\pci):	if (request_irq(pci->irq, snd_ad1889_interrupt,
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):            request_irq and supplying a dev_id pointer to both request_irq()
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):            message if request_irq() fails.
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):            ASC_DBG1(2, "advansys_detect: request_irq() %d\n", shp->irq);
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):            * If request_irq() fails with the SA_INTERRUPT flag set,
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):            if (((ret = request_irq(shp->irq, advansys_interrupt,
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):                ((ret = request_irq(shp->irq, advansys_interrupt,
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):"advansys_detect: board %d: request_irq(): IRQ 0x%x already in use.\n",
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):"advansys_detect: board %d: request_irq(): IRQ 0x%x not valid.\n",
+Advansys.c (z:\hi3511\linux-2.6.14\drivers\scsi):"advansys_detect: board %d: request_irq(): IRQ 0x%x failed with %d\n",
+Aha152x.c (z:\hi3511\linux-2.6.14\drivers\scsi): * - moved request_irq behind controller initialization
+Aha152x.c (z:\hi3511\linux-2.6.14\drivers\scsi): * - irqaction to request_irq
+Aha152x.c (z:\hi3511\linux-2.6.14\drivers\scsi):	if( request_irq(shpnt->irq, swintr, SA_INTERRUPT|SA_SHIRQ, "aha152x", shpnt) ) {
+Aha152x.c (z:\hi3511\linux-2.6.14\drivers\scsi):	if ( request_irq(shpnt->irq, intr, SA_INTERRUPT|SA_SHIRQ, "aha152x", shpnt) ) {
+Aha1542.c (z:\hi3511\linux-2.6.14\drivers\scsi): *        Use request_irq and request_dma to help prevent unexpected conflicts
+Aha1542.c (z:\hi3511\linux-2.6.14\drivers\scsi):			if (request_irq(irq_level, do_aha1542_intr_handle, 0, "aha1542", NULL)) {
+Aha1740.c (z:\hi3511\linux-2.6.14\drivers\scsi):	if (request_irq(irq_level,aha1740_intr_handle,irq_type ? 0 : SA_SHIRQ,
+Aic7770_osm.c (z:\hi3511\linux-2.6.14\drivers\scsi\aic7xxx):	error = request_irq(irq, ahc_linux_isr, shared, "aic7xxx", ahc);
+Aic79xx_osm_pci.c (z:\hi3511\linux-2.6.14\drivers\scsi\aic7xxx):	error = request_irq(ahd->dev_softc->irq, ahd_linux_isr,
+Aic7xxx_old.c (z:\hi3511\linux-2.6.14\drivers\scsi):    result = (request_irq(p->irq, do_aic7xxx_isr, 0, "aic7xxx", p));
+Aic7xxx_old.c (z:\hi3511\linux-2.6.14\drivers\scsi):    result = (request_irq(p->irq, do_aic7xxx_isr, SA_SHIRQ,
+Aic7xxx_old.c (z:\hi3511\linux-2.6.14\drivers\scsi):      result = (request_irq(p->irq, do_aic7xxx_isr, SA_INTERRUPT | SA_SHIRQ,
+Aic7xxx_osm_pci.c (z:\hi3511\linux-2.6.14\drivers\scsi\aic7xxx):	error = request_irq(ahc->dev_softc->irq, ahc_linux_isr,
+Airo.c (z:\hi3511\linux-2.6.14\drivers\net\wireless):	rc = request_irq( dev->irq, airo_interrupt, SA_SHIRQ, dev->name, dev );
+Airport.c (z:\hi3511\linux-2.6.14\drivers\net\wireless):	if (request_irq(dev->irq, orinoco_interrupt, 0, dev->name, dev)) {
+Ali-ircc.c (z:\hi3511\linux-2.6.14\drivers\net\irda):	if (request_irq(self->io.irq, ali_ircc_interrupt, 0, dev->name, dev)) 
+Ali5451.c (z:\hi3511\linux-2.6.14\sound\pci\ali5451):	if (request_irq(codec->pci->irq, snd_ali_card_interrupt, SA_INTERRUPT|SA_SHIRQ, "ALI 5451", (void *)codec)) {
+Ali5455.c (z:\hi3511\linux-2.6.14\sound\oss):	if (request_irq(card->irq, &ali_interrupt, SA_SHIRQ,
+Am79c961a.c (z:\hi3511\linux-2.6.14\drivers\net\arm):	ret = request_irq(dev->irq, am79c961_interrupt, 0, dev->name, dev);
+Amba-pl010.c (z:\hi3511\linux-2.6.14\drivers\serial):	retval = request_irq(port->irq, pl010_int, 0, "uart-pl010", port);
+Amba-pl011.c (z:\hi3511\linux-2.6.14\drivers\serial):	retval = request_irq(uap->port.irq, pl011_int, SA_SHIRQ, "uart-pl011", uap);
+Ambakmi.c (z:\hi3511\linux-2.6.14\drivers\input\serio):	ret = request_irq(kmi->irq, amba_kmi_int, 0, "kmi-pl050", kmi);
+Ambassador.c (z:\hi3511\linux-2.6.14\drivers\atm):	err = request_irq(irq, interrupt_handler, SA_SHIRQ, DEV_LABEL, dev);
+Amd7930.c (z:\hi3511\linux-2.6.14\sound\sparc):	if (request_irq(irq_prop->pri, snd_amd7930_interrupt,
+Amd8111e.c (z:\hi3511\linux-2.6.14\drivers\net):	if(dev->irq ==0 || request_irq(dev->irq, amd8111e_interrupt, SA_SHIRQ,
+Amifb.c (z:\hi3511\linux-2.6.14\drivers\video):	if (request_irq(IRQ_AMIGA_COPPER, amifb_interrupt, 0,
+Amiflop.c (z:\hi3511\linux-2.6.14\drivers\block):	if (request_irq(IRQ_AMIGA_DSKBLK, fd_block_done, 0, "floppy_dma", NULL)) {
+Amiflop.c (z:\hi3511\linux-2.6.14\drivers\block):	if (request_irq(IRQ_AMIGA_CIAA_TB, ms_isr, 0, "floppy_timer", NULL)) {
+Amiints.c (z:\hi3511\linux-2.6.14\arch\m68k\amiga): *           request_irq which they really should do.
+Amiints.c (z:\hi3511\linux-2.6.14\arch\ppc\amiga): *           request_irq which they really should do.
+Amijoy.c (z:\hi3511\linux-2.6.14\drivers\input\joystick):	if (!amijoy_used && request_irq(IRQ_AMIGA_VERTB, amijoy_interrupt, 0, "amijoy", amijoy_interrupt)) {
+Amikbd.c (z:\hi3511\linux-2.6.14\drivers\input\keyboard):	request_irq(IRQ_AMIGA_CIAA_SP, amikbd_interrupt, 0, "amikbd", amikbd_interrupt);
+Amimouse.c (z:\hi3511\linux-2.6.14\drivers\input\mouse):	if (request_irq(IRQ_AMIGA_VERTB, amimouse_interrupt, 0, "amimouse", amimouse_interrupt)) {
+Amiserial.c (z:\hi3511\linux-2.6.14\drivers\char):	retval = request_irq(IRQ_AMIGA_VERTB, ser_vbl_int, 0, "serial status", info);
+Amiserial.c (z:\hi3511\linux-2.6.14\drivers\char):	request_irq(IRQ_AMIGA_TBE, ser_tx_int, 0, "serial TX", state);
+Amiserial.c (z:\hi3511\linux-2.6.14\drivers\char):	request_irq(IRQ_AMIGA_RBF, ser_rx_int, SA_INTERRUPT, "serial RX", state);
+Apne.c (z:\hi3511\linux-2.6.14\drivers\net):    i = request_irq(IRQ_AMIGA_PORTS, apne_interrupt, SA_SHIRQ, DRV_NAME, dev);
+Applicom.c (z:\hi3511\linux-2.6.14\drivers\char):static int dummy;	/* dev_id for request_irq() */
+Applicom.c (z:\hi3511\linux-2.6.14\drivers\char):		if (request_irq(dev->irq, &ac_interrupt, SA_SHIRQ, "Applicom PCI", &dummy)) {
+Applicom.c (z:\hi3511\linux-2.6.14\drivers\char):			if (request_irq(irq, &ac_interrupt, SA_SHIRQ, "Applicom ISA", &dummy)) {
+Arbiter.c (z:\hi3511\linux-2.6.14\arch\cris\arch-v32\kernel):	if (request_irq(MEMARB_INTR_VECT, crisv32_arbiter_irq, SA_INTERRUPT,
+Arc-rimi.c (z:\hi3511\linux-2.6.14\drivers\net\arcnet):	if (request_irq(dev->irq, &arcnet_interrupt, 0, "arcnet (RIM I)", dev)) {
+Arcfb.c (z:\hi3511\linux-2.6.14\drivers\video):		if (request_irq(par->irq, &arcfb_interrupt, SA_SHIRQ,
+Ariadne.c (z:\hi3511\linux-2.6.14\drivers\net):    i = request_irq(IRQ_AMIGA_PORTS, ariadne_interrupt, SA_SHIRQ,
+Arlan-main.c (z:\hi3511\linux-2.6.14\drivers\net\wireless):	ret = request_irq(dev->irq, &arlan_interrupt, 0, dev->name, dev);
+Arv.c (z:\hi3511\linux-2.6.14\drivers\media\video):	if (request_irq(M32R_IRQ_INT3, ar_interrupt, 0, "arv", ar)) {
+Arv.c (z:\hi3511\linux-2.6.14\drivers\media\video):		printk("arv: request_irq(%d) failed.\n", M32R_IRQ_INT3);
+Asp.c (z:\hi3511\linux-2.6.14\drivers\parisc):	ret = request_irq(gsc_irq.irq, gsc_asic_intr, 0, "asp", &asp);
+At1700.c (z:\hi3511\linux-2.6.14\drivers\net):	ret = request_irq(irq, &net_interrupt, 0, DRV_NAME, dev);
+Atafb.c (z:\hi3511\linux-2.6.14\drivers\video):			request_irq(IRQ_AUTO_4, falcon_vbl_switcher, IRQ_TYPE_PRIO,
+Ataints.c (z:\hi3511\linux-2.6.14\arch\m68k\atari): *  47 for the Atari. So we can call request_irq() for all Atari interrupts
+Atarilance.c (z:\hi3511\linux-2.6.14\drivers\net):		if (request_irq(IRQ_AUTO_5, lance_interrupt, IRQ_TYPE_PRIO,
+Atarilance.c (z:\hi3511\linux-2.6.14\drivers\net):		if (request_irq(irq, lance_interrupt, IRQ_TYPE_PRIO,
+Atari_scsi.c (z:\hi3511\linux-2.6.14\drivers\scsi):		if (request_irq(IRQ_TT_MFP_SCSI, scsi_tt_intr, IRQ_TYPE_SLOW,
+Atari_scsi.c (z:\hi3511\linux-2.6.14\drivers\scsi):			if (request_irq(IRQ_AUTO_2, hades_dma_emulator,
+Atiixp.c (z:\hi3511\linux-2.6.14\sound\pci):	if (request_irq(pci->irq, snd_atiixp_interrupt, SA_INTERRUPT|SA_SHIRQ, card->shortname, (void *)chip)) {
+Atiixp_modem.c (z:\hi3511\linux-2.6.14\sound\pci):	if (request_irq(pci->irq, snd_atiixp_interrupt, SA_INTERRUPT|SA_SHIRQ, card->shortname, (void *)chip)) {
+Atmel.c (z:\hi3511\linux-2.6.14\drivers\net\wireless):	if ((rc = request_irq(dev->irq, service_interrupt, SA_SHIRQ, dev->name, dev))) {
+Atp.c (z:\hi3511\linux-2.6.14\drivers\net):	ret = request_irq(dev->irq, &atp_interrupt, 0, dev->name, dev);
+Atp870u.c (z:\hi3511\linux-2.6.14\drivers\scsi):		if (request_irq(pdev->irq, atp870u_intr_handle, SA_SHIRQ, "atp880i", shpnt)) {
+Atp870u.c (z:\hi3511\linux-2.6.14\drivers\scsi):	printk("request_irq() shpnt %p hostdata %p\n", shpnt, p);
+Atp870u.c (z:\hi3511\linux-2.6.14\drivers\scsi):		if (request_irq(pdev->irq, atp870u_intr_handle, SA_SHIRQ, "atp870u", shpnt)) {
+Atp870u.c (z:\hi3511\linux-2.6.14\drivers\scsi):		if (request_irq(pdev->irq, atp870u_intr_handle, SA_SHIRQ, "atp870i", shpnt)) {
+Atyfb_base.c (z:\hi3511\linux-2.6.14\drivers\video\aty):		if (request_irq(par->irq, aty_irq, SA_SHIRQ, "atyfb", par)) {
+Au1000_eth.c (z:\hi3511\linux-2.6.14\drivers\net):	if ((retval = request_irq(dev->irq, &au1000_interrupt, 0, 
+Au1k_ir.c (z:\hi3511\linux-2.6.14\drivers\net\irda):	if ((retval = request_irq(AU1000_IRDA_TX_INT, &au1k_irda_interrupt, 
+Au1k_ir.c (z:\hi3511\linux-2.6.14\drivers\net\irda):	if ((retval = request_irq(AU1000_IRDA_RX_INT, &au1k_irda_interrupt, 
+Au1x00_uart.c (z:\hi3511\linux-2.6.14\drivers\serial):		ret = request_irq(up->port.irq, serial8250_interrupt,
+Au88x0.c (z:\hi3511\linux-2.6.14\sound\pci\au88x0):	 * This must be done before we do request_irq otherwise we can get spurious
+Au88x0.c (z:\hi3511\linux-2.6.14\sound\pci\au88x0):	if ((err = request_irq(pci->irq, vortex_interrupt,
+Aurora.c (z:\hi3511\linux-2.6.14\drivers\sbus\char):				    !request_irq(bp->irq|0x30, aurora_interrupt, SA_SHIRQ, "sio16", bp)) {
+Aurora.c (z:\hi3511\linux-2.6.14\drivers\sbus\char):				    !request_irq(bp->irq|0x30, aurora_interrupt, SA_SHIRQ, "sio16", bp)) {
+Aurora.c (z:\hi3511\linux-2.6.14\drivers\sbus\char):				    !request_irq(bp->irq|0x30, aurora_interrupt, SA_SHIRQ, "sio16", bp)) {
+Aurora.c (z:\hi3511\linux-2.6.14\drivers\sbus\char):					if ((bp->irq=type_1_irq[grrr])&&!request_irq(bp->irq|0x30, aurora_interrupt, SA_SHIRQ, "sio16", bp)) {
+Aurora.c (z:\hi3511\linux-2.6.14\drivers\sbus\char):		error = request_irq(allirq[i]|0x30, aurora_interrupt, SA_SHIRQ,
+Aurora.c (z:\hi3511\linux-2.6.14\drivers\sbus\char):	error = request_irq(bp->irq|0x30, aurora_interrupt, SA_SHIRQ,
+Axnet_cs.c (z:\hi3511\linux-2.6.14\drivers\net\pcmcia):    request_irq(dev->irq, ei_irq_wrapper, SA_SHIRQ, dev_info, dev);
+Azt3328.c (z:\hi3511\linux-2.6.14\sound\pci):	if (request_irq(pci->irq, snd_azf3328_interrupt, SA_INTERRUPT|SA_SHIRQ, card->shortname, (void *)chip)) {
+B1isa.c (z:\hi3511\linux-2.6.14\drivers\isdn\hardware\avm):	retval = request_irq(card->irq, b1_interrupt, 0, card->name, card);
+B1pci.c (z:\hi3511\linux-2.6.14\drivers\isdn\hardware\avm):	retval = request_irq(card->irq, b1_interrupt, SA_SHIRQ, card->name, card);
+B1pci.c (z:\hi3511\linux-2.6.14\drivers\isdn\hardware\avm):	retval = request_irq(card->irq, b1dma_interrupt, SA_SHIRQ, card->name, card);
+B1pcmcia.c (z:\hi3511\linux-2.6.14\drivers\isdn\hardware\avm):	retval = request_irq(card->irq, b1_interrupt, 0, card->name, card);
+B44.c (z:\hi3511\linux-2.6.14\drivers\net):	err = request_irq(dev->irq, b44_interrupt, SA_SHIRQ, dev->name, dev);
+Baboon.c (z:\hi3511\linux-2.6.14\arch\m68k\mac):	request_irq(IRQ_NUBUS_C, baboon_irq, IRQ_FLG_LOCK|IRQ_FLG_FAST,
+Baycom_ser_fdx.c (z:\hi3511\linux-2.6.14\drivers\net\hamradio):	if (request_irq(dev->irq, ser12_interrupt, SA_INTERRUPT | SA_SHIRQ,
+Baycom_ser_hdx.c (z:\hi3511\linux-2.6.14\drivers\net\hamradio):	if (request_irq(dev->irq, ser12_interrupt, SA_INTERRUPT | SA_SHIRQ,
+Bbc_i2c.c (z:\hi3511\linux-2.6.14\drivers\sbus\char):	if (request_irq(edev->irqs[0], bbc_i2c_interrupt,
+Bcm1250_tbprof.c (z:\hi3511\linux-2.6.14\arch\mips\sibyte\sb1250):	if (request_irq
+Bcm1250_tbprof.c (z:\hi3511\linux-2.6.14\arch\mips\sibyte\sb1250):	if (request_irq
+Blz1230.c (z:\hi3511\linux-2.6.14\drivers\scsi):		if (request_irq(IRQ_AMIGA_PORTS, esp_intr, SA_SHIRQ,
+Blz2060.c (z:\hi3511\linux-2.6.14\drivers\scsi):		request_irq(IRQ_AMIGA_PORTS, esp_intr, SA_SHIRQ,
+Bmac.c (z:\hi3511\linux-2.6.14\drivers\net):	ret = request_irq(dev->irq, bmac_misc_intr, 0, "BMAC-misc", dev);
+Bmac.c (z:\hi3511\linux-2.6.14\drivers\net):	ret = request_irq(bp->tx_dma_intr, bmac_txdma_intr, 0, "BMAC-txdma", dev);
+Bmac.c (z:\hi3511\linux-2.6.14\drivers\net):	ret = request_irq(bp->rx_dma_intr, bmac_rxdma_intr, 0, "BMAC-rxdma", dev);
+Bnx2.c (z:\hi3511\linux-2.6.14\drivers\net):			rc = request_irq(bp->pdev->irq, bnx2_msi, 0, dev->name,
+Bnx2.c (z:\hi3511\linux-2.6.14\drivers\net):			rc = request_irq(bp->pdev->irq, bnx2_interrupt,
+Bnx2.c (z:\hi3511\linux-2.6.14\drivers\net):		rc = request_irq(bp->pdev->irq, bnx2_interrupt, SA_SHIRQ,
+Bnx2.c (z:\hi3511\linux-2.6.14\drivers\net):				rc = request_irq(bp->pdev->irq, bnx2_interrupt,
+Board-osk.c (z:\hi3511\linux-2.6.14\arch\arm\mach-omap1):		ret = request_irq(OMAP_GPIO_IRQ(OMAP_MPUIO(2)),
+Boardergo.c (z:\hi3511\linux-2.6.14\drivers\isdn\hysdn):	if (request_irq(card->irq, ergo_interrupt, SA_SHIRQ, "HYSDN", card)) {
+Bpa_iic.c (z:\hi3511\linux-2.6.14\arch\ppc64\kernel):	request_irq(irq, iic_ipi_action, SA_INTERRUPT, name, NULL);
+Bt878.c (z:\hi3511\linux-2.6.14\drivers\media\dvb\bt8xx):	result = request_irq(bt->irq, bt878_irq,
+Bt87x.c (z:\hi3511\linux-2.6.14\sound\pci):	if (request_irq(pci->irq, snd_bt87x_interrupt, SA_INTERRUPT | SA_SHIRQ,
+Btaudio.c (z:\hi3511\linux-2.6.14\sound\oss):	if ((rc = request_irq(bta->irq, btaudio_irq, SA_SHIRQ|SA_INTERRUPT,
+Bttv-driver.c (z:\hi3511\linux-2.6.14\drivers\media\video):        result = request_irq(btv->c.pci->irq, bttv_irq,
+BusLogic.c (z:\hi3511\linux-2.6.14\drivers\scsi):	if (request_irq(HostAdapter->IRQ_Channel, BusLogic_InterruptHandler, SA_SHIRQ, HostAdapter->FullModelName, HostAdapter) < 0) {
+Bus_watcher.c (z:\hi3511\linux-2.6.14\arch\mips\sibyte\sb1250):	if (request_irq(K_INT_BAD_ECC, sibyte_bw_int, 0, "Bus watcher", &bw_stats)) {
+Bus_watcher.c (z:\hi3511\linux-2.6.14\arch\mips\sibyte\sb1250):	if (request_irq(K_INT_COR_ECC, sibyte_bw_int, 0, "Bus watcher", &bw_stats)) {
+Bus_watcher.c (z:\hi3511\linux-2.6.14\arch\mips\sibyte\sb1250):	if (request_irq(K_INT_IO_BUS, sibyte_bw_int, 0, "Bus watcher", &bw_stats)) {
+C101.c (z:\hi3511\linux-2.6.14\drivers\net\wan):	if (request_irq(irq, sca_intr, 0, devname, card)) {
+C4.c (z:\hi3511\linux-2.6.14\drivers\isdn\hardware\avm):	retval = request_irq(card->irq, c4_interrupt, SA_SHIRQ, card->name, card);
+Ca0106_main.c (z:\hi3511\linux-2.6.14\sound\pci\ca0106):	if (request_irq(pci->irq, snd_ca0106_interrupt,
+Cassini.c (z:\hi3511\linux-2.6.14\drivers\net):	if (request_irq(cp->pdev->irq, cas_interrupt,
+Cciss.c (z:\hi3511\linux-2.6.14\drivers\block):	if( request_irq(hba[i]->intr, do_cciss_intr, 
+Cds.txt (z:\hi3511\linux-2.6.14\documentation\s390):* request_irq() and free_irq() are no longer done by the driver.
+Cdu31a.c (z:\hi3511\linux-2.6.14\drivers\cdrom):		if (request_irq
+Cia.c (z:\hi3511\linux-2.6.14\arch\m68k\amiga):	request_irq(base->handler_irq, cia_handler, 0, base->name, base);
+Clps711x.c (z:\hi3511\linux-2.6.14\drivers\serial):	retval = request_irq(TX_IRQ(port), clps711xuart_int_tx, 0,
+Clps711x.c (z:\hi3511\linux-2.6.14\drivers\serial):	retval = request_irq(RX_IRQ(port), clps711xuart_int_rx, 0,
+Cm206.c (z:\hi3511\linux-2.6.14\drivers\cdrom):	if (request_irq(cm206_irq, cm206_interrupt, 0, "cm206", NULL)) {
+Cmipci.c (z:\hi3511\linux-2.6.14\sound\pci):	if (request_irq(pci->irq, snd_cmipci_interrupt, SA_INTERRUPT|SA_SHIRQ, card->driver, (void *)cm)) {
+Cmpci.c (z:\hi3511\linux-2.6.14\sound\oss):	if ((ret = request_irq(s->irq, cm_interrupt, SA_SHIRQ, "cmpci", s))) {
