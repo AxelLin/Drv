@@ -174,8 +174,6 @@ static ssize_t s3c2410_key_read(struct file *filp, char *buf, size_t count, loff
 		goto retry;
 	   }
 
-	return 0;
-}
 
 
 

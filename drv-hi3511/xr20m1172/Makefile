@@ -4,7 +4,7 @@
 # obj-m      :=module.o
 # module-objs:=file1.o file2.o
 
-obj-m := test.drv.o
+obj-m := xr20m1172.o
 
 #KERNELDIR ?=/lib/modules/$(shell uname -r)/build
 KERNELDIR :=/home/bamboo/work/hi3511/linux-2.6.14
@@ -13,7 +13,7 @@ PWD       :=$(shell pwd)
 
 all:
 	$(MAKE) -C $(KERNELDIR) M=$(PWD) modules
-	cp -f test.drv.ko  /home/bamboo/work/hi3511/rootbox
+	cp -f xr20m1172.ko  /home/bamboo/work/hi3511/rootbox
 	
 #install:
 #	install -d $(INSTALLDIR) 

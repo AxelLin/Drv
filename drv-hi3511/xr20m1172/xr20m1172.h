@@ -13,7 +13,7 @@
 #define	      XR20M1172_ADDR                  0x6a
 
 #define TRUNC(a)                        ((unsigned int)(a))
-#define ROUND(a)                        ((unsigned int)(a+0.5))
+#define ROUND(a)                        ((unsigned char )(a+0.5))
 
 #define BIT0                            0x1
 #define BIT1                            0x2
@@ -53,8 +53,9 @@
 #define XR20M1170REG_XOFF2          	26
 
 
-#define RW_RETRY_TIME                     	5
+#define RW_RETRY_TIME                     	1
 
+#define MAX_BUF     1024
 struct xr20m1172_port {
 	struct cdev cdev;
 	struct uart_port port;
@@ -64,18 +65,17 @@ struct xr20m1172_port {
 	unsigned char mcr;
 	
 	unsigned char out_level;  /*ext gpio level*/
+	unsigned int rx_head,rx_tail;
 	
-#ifdef CONFIG_DVFM
-	struct pxa3xx_fv_notifier dvfm_notifier;
-	unsigned int baud;
-	unsigned int inuse;
-	wait_queue_head_t delay_wait;
-#endif
-	char *name;
-
-#ifdef    CONFIG_PM
-	unsigned int power_mode;
-#endif
+	unsigned char rx_buf[MAX_BUF];
+	
+	unsigned int tx_head, tx_tail;
+	
+	unsigned char tx_buf[MAX_BUF];
+	wait_queue_head_t  rx_wait;
+	wait_queue_head_t tx_wait;
+	wait_queue_head_t isr_wait;
+	
 };
 
 
