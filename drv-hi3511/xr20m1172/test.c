@@ -39,7 +39,8 @@ int main(int argc,char **argv)
 {
 	int fd;
 	int value;
-	unsigned char buf[50] ="abcdefghijklmnopqrstuvwxyz";
+	unsigned char buf[10] ={5};
+	unsigned char buf1[200];
 	int i=0;
 	printf("test for i2c_gpio !");
 	fd = open("/dev/i2c_gpio",O_RDWR);
@@ -52,14 +53,39 @@ int main(int argc,char **argv)
 //	printf ("write buf is %s\n",buf);
 	while(1)
 	{
-	sleep(1); 
-	read(fd,buf,40);
-	printf ("read  buf is %s\n",buf);
 	
-	}
-//	while(1)
+	printf ("Now write the com the 1st time\n");	
+	write(fd,buf,10);
+	read(fd,buf,10);
+	printf ("read  buf is %s\n",buf);
+/*
+	printf ("Now write the com the 2th time\n");	
+	write(fd,buf,10);
+	printf ("Now read the buf the  2th time\n");
+	read(fd,buf,10);
+	
+	printf ("Now write the com the  3th time\n");	
+	write(fd,buf,10);
+	printf ("Now read the buf the  3th time\n");
+	read(fd,buf,10);
+
+	printf ("Now write the com the 4th time\n");	
+	write(fd,buf,10);
+	printf ("Now read the buf the 4tt time\n");
+	read(fd,buf,10);
+
+	printf ("Now write the com the 5th time\n");	
+	write(fd,buf,10);
+	printf ("Now read the buf the  5th time\n");
+	read(fd,buf,10);  */
+	} 
+	while(1)
 	{
-//		write(fd,buf,20);	
+	//	write(fd,buf,10);
+	//	sleep(1);
+		read(fd,buf1,10);
+		
+	printf ("read  buf1 is %s\n",buf1);
 	}
 return 0;
 	printf("open device i2c_gpio succeed !\n");

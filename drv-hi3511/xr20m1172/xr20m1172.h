@@ -55,7 +55,7 @@
 
 #define RW_RETRY_TIME                     	1
 
-#define MAX_BUF     1024
+#define MAX_BUF     2048
 struct xr20m1172_port {
 	struct cdev cdev;
 	struct uart_port port;

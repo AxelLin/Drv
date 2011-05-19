@@ -60,10 +60,10 @@
 #include <linux/debug.h>
 
 
-// ¶¨ÒåÒý½ÅÊäÈëÊä³ö·½Ïò
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 #define I2C_GPIO_INPUT                      0
 #define I2C_GPIO_OUTPUT                     1
-// ¶¨ÒåÒý½Å¸ßµÍµçÆ½
+// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¸ßµÍµï¿½Æ½
 #define I2C_GPIO_PIN_LOW                    0
 #define I2C_GPIO_PIN_HIGH                   1
 
@@ -96,6 +96,9 @@
 #define I2C_M_WR     0
 
 
+#define R_TRG	16
+#define T_TRG	8
+
 //#define I2C_DRIVERID_XR20M1172_GPIO    11721
 
 struct workqueue_struct  *xr20m1172_wq ;
@@ -107,7 +110,7 @@ static u8 cached_efr[2];
 static u8 cached_mcr[2];
 static int i2c_gpio_major = I2C_GPIO_MAJOR;
 
-#define XR20M1172_CLOCK			14709800
+#define XR20M1172_CLOCK			24000000//14709800
 #define PRESCALER 					1
 #define I2C_BAUD_RATE			115200
 #define SAMPLE_RATE				16
@@ -132,7 +135,7 @@ static int i2c_gpio_major = I2C_GPIO_MAJOR;
 spinlock_t xr20m1172_lock;
 spinlock_t global_lock;
 
-
+static atomic_t recv_timeout =ATOMIC_INIT(0);
 
 static DECLARE_MUTEX(i2c_gpio_mutex);
 static struct i2c_driver i2c_gpio_driver;
@@ -151,7 +154,7 @@ static struct i2c_client_address_data addr_data = {
 
 /*
 ********************************************************************************
-* ¶¨Òåµ÷ÊÔÖ§³Ö
+* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½
 ********************************************************************************
 */ 
 #define DEBUG_I2C_GPIO      1
@@ -286,48 +289,70 @@ static int isr_thread(void * arg)
 	add_wait_queue(&i2c_gpio_port->isr_wait, &wait);
 	daemonize("i2c-thread");
 	
-	interruptible_sleep_on(&i2c_gpio_port->isr_wait);\
+	interruptible_sleep_on(&i2c_gpio_port->isr_wait);
 	
 	while(1)
 		{
 		retry:
-		printk("I am in isr_thread the %02x time\n",i++);
-		
+		//printk("I am in isr_thread the %02x time\n",i++);
+		//printk("the LCR in thread  is %02x\n", i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_LCR][0]));
+
 		int_val0 = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_ISR][0]);
-		i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_IER][0],0x00);
-		printk("int_val0 is : %2x\n",int_val0);
+		//i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_IER][0],0x00);
+		//printk("int_val0 is : %2x\n",int_val0);
 	
 		switch(int_val0)
 		{
-			case 0x04 :               //receive data ready.
-					BUF_HEAD_RX = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_RHR][0]);
-					i2c_gpio_port->rx_head = INCBUF(i2c_gpio_port->rx_head,MAX_BUF);
+			case 0xc4 :
+
+				/*	for(i=0;i< R_TRG;i++)
+						{
+							BUF_HEAD_RX = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_RHR][0]);
+							i2c_gpio_port->rx_head = INCBUF(i2c_gpio_port->rx_head,MAX_BUF);
+						
+						}
+					*/
+
+				while(i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_LSR][0]) & 0x01)
+						{
+					
+						BUF_HEAD_RX = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_RHR][0]);
+						i2c_gpio_port->rx_head = INCBUF(i2c_gpio_port->rx_head,MAX_BUF);
+						
+						}
+
 					wake_up_interruptible(&i2c_gpio_port->rx_wait);
-					printk("I am in ktread when int_val0 is  0x04\n");
 					break;
 					
-		//	case 0x0c :
+			case 0xcc :
+					while(i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_LSR][0]) & 0x01)
+						{
+					
+						BUF_HEAD_RX = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_RHR][0]);
+						i2c_gpio_port->rx_head = INCBUF(i2c_gpio_port->rx_head,MAX_BUF);
+					
+						}
+					//printk("I am in ktread when int_val0 is  %02x\n",int_val0);
+							atomic_set(&recv_timeout, 1);
+							wake_up_interruptible(&i2c_gpio_port->rx_wait);
+					break;
+	
 
-			//		break;
-		
-
-			case 0x02:
+			case 0xc2:
 					wake_up_interruptible(&i2c_gpio_port->tx_wait);
-					printk("I am in ktread when int_val0 is  0x02\n");
+					printk("I am in ktread when int_val0 is  %02x\n",int_val0);
 					break;
 
 			default :  
-					BUF_HEAD_RX = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_RHR][0]);
+					//wake_up_interruptible(&i2c_gpio_port->tx_wait);
+				//	printk("I am in ktread when int_val0 is  %02x\n",int_val0);
+				//	printk("the LSR is %02x\n", i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_LSR][0]));
 					
-					i = BUF_HEAD_RX;
-					i2c_gpio_port->rx_head = INCBUF(i2c_gpio_port->rx_head,MAX_BUF);
-					wake_up_interruptible(&i2c_gpio_port->rx_wait);
-					printk("I am in isr_thread !thread read data  is %02x\n",i);
 				break;
 								
 		}
-	
-	
+//	wake_up_interruptible(&i2c_gpio_port->tx_wait);
+	//i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_IER][0],0x03);
 		interruptible_sleep_on(&i2c_gpio_port->isr_wait); 
 		goto retry;
 			
@@ -364,10 +389,10 @@ static ssize_t i2c_gpio_read(struct file *filp, char __user *buf, size_t size, l
 	unsigned char  temp;
 	unsigned char  buf1[1024];
 	unsigned int count=0;
-	
+	unsigned int i;
 	struct xr20m1172_port *gpio_port = filp->private_data;
 	
-	if(size > 1024)
+	if(size > MAX_BUF)
 		{
 			printk("read count > 1024");
 			return -EFAULT;
@@ -375,53 +400,74 @@ static ssize_t i2c_gpio_read(struct file *filp, char __user *buf, size_t size, l
 	
 	DECLARE_WAITQUEUE(wait1, current);
 	add_wait_queue(&i2c_gpio_port->rx_wait, &wait1);
-
-	retry:
-		
-
+	//interruptible_sleep_on(&i2c_gpio_port->rx_wait);
+	
+	retry1:
+			PRINTK_I2C_GPIO("I am here haha \n");
 		if(i2c_gpio_port->rx_head   !=  i2c_gpio_port->rx_tail)
 			{
  
 				temp = BUF_TAIL_RX;
 				i2c_gpio_port->rx_tail = INCBUF(i2c_gpio_port->rx_tail,MAX_BUF);
 				*(buf1 + count) = temp;
-				PRINTK_I2C_GPIO("com read %02x\n",temp);
+			PRINTK_I2C_GPIO("com read %02x\n",temp);
 
 				count++;
+				
 				
 				if(count == size)
 					{
 						
 						copy_to_user((void *)buf, buf1, count);
+						if(1 == atomic_read(&recv_timeout))
+							{
+								i2c_gpio_port->rx_tail = i2c_gpio_port->rx_head;
+							}
 				      		goto  out;
 					}
 				 else
 				 	{
 
-						goto retry;
+						goto retry1;
 								
 				 	}
 								
 			}
 		else
 			{
+
+
+				if(1 == atomic_read(&recv_timeout))
+					{
+					
+					printk("the timeout count is :%02x\n",atomic_read(&recv_timeout));
+					atomic_set(&recv_timeout, 0);
+					copy_to_user((void *)buf, buf1, count);
+					
+				      		goto  out;
+					
+					}
+				
 				if(filp->f_flags & O_NONBLOCK)
 					{
 						return -EAGAIN;
 					}
 				else
 					{
-						interruptible_sleep_on(&i2c_gpio_port->rx_wait);
-
-						goto retry;
+					interruptible_sleep_on(&i2c_gpio_port->rx_wait);
+					
+						goto retry1;
 					}
 			}
 
 
+
+//interruptible_sleep_on(&i2c_gpio_port->rx_wait);   ///////////
+//goto retry1;  /////////
 	out: 
 	remove_wait_queue(&i2c_gpio_port->rx_wait,&wait1);
 	
-	return 0;
+	return count;
 }
 
 static ssize_t i2c_gpio_write(struct file *filp, const char __user *buf, size_t size, loff_t *ppos)
@@ -430,6 +476,7 @@ static ssize_t i2c_gpio_write(struct file *filp, const char __user *buf, size_t 
 	unsigned char buf2[MAX_BUF];
 	unsigned int count = 0;
 	unsigned char temp;
+	unsigned  int i=0;
 	
 	struct xr20m1172_port *gpio_port = filp->private_data;
 	DECLARE_WAITQUEUE(wait2, current);
@@ -442,30 +489,28 @@ static ssize_t i2c_gpio_write(struct file *filp, const char __user *buf, size_t 
          	}
 	copy_from_user(buf2, (void *) buf, size);
 retry:
-	
-	temp = *(buf2 + count );
-	PRINTK_I2C_GPIO("com write %02c\n",temp);
 
-	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_THR][0], temp);
+	while(i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_LSR][0]) & 0x20)
+		{
+			temp = *(buf2 + count );
+			PRINTK_I2C_GPIO("com write %02c\n",temp);	
 	
-	count += 1;
+			i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_THR][0], temp);
+			count += 1;
+			if(count == size )
+			{
+				goto out;
+			}
+					
+		}
 	
 	interruptible_sleep_on(&i2c_gpio_port->tx_wait);
-
-	if(count == size )
-		{
-			goto out;
-		}
-	else {
-
-			goto retry;
-		}
-	
+	goto retry;
 	
 	out: 
 	remove_wait_queue(&i2c_gpio_port->tx_wait,&wait2);
 
-	return 0;
+	return count;
 }
 
 
@@ -672,15 +717,16 @@ void i2c_gpio_init(void)
 	PRINTK_I2C_GPIO("i2c_gpio read LCR  data is :%02x\n",temp);
 
 /*IER&*/
-	temp =0;
-	temp |= 1 | (1<<1);
+	temp =3;
+	//temp |= 1 | (1<<1) | (1<<2);
 	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_IER][0], temp);
 	temp = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_IER][0]);
 	PRINTK_I2C_GPIO("i2c_gpio read IER  data is :%02x\n",temp);	
 	
 /*FCR*/
-	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_FCR][0], 0x00);
-
+	//i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_FCR][0], 0x01);
+	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_FCR][0], 0x47);
+	printk("The FCR is %02x\n",i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_IOCONTROL][0]));
 
 /*IOCRL*/
 	
@@ -696,7 +742,7 @@ void i2c_gpio_init(void)
 	
 	
 	
-	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_IOSTATE][0], 0x33);
+	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_IOSTATE][0], 0xaa);
 	//count ++;
 	//msleep(1000)
 	temp = i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_IOSTATE][0]);
@@ -732,7 +778,7 @@ void xr20m1172_do_work(void *data)
 {
 	struct xr20m1172_port  *port = (struct xr20m1172_port * ) data;
 	
-	PRINTK_I2C_GPIO("I am in work struct  11111111111111111111111111111!\n");
+	PRINTK_I2C_GPIO("I am in work struct  1111111111111!\n");
 }
 
 static irqreturn_t i2c_gpio_handler(int irq, void *dev_id, struct pt_regs *reg)
@@ -751,15 +797,10 @@ static irqreturn_t i2c_gpio_handler(int irq, void *dev_id, struct pt_regs *reg)
 			 return IRQ_NONE;
 
 	         }
-	PRINTK_I2C_GPIO("I am in interrupt !%03x\n",count++);
+	//PRINTK_I2C_GPIO("I am in interrupt !%03x\n",count++);
 	
+	//printk("The LSR in interrupt is :%02x\n",i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_LSR][0]));
 	
-	
-	//schedule_work(&xr20m1172_work);
-	//PREPARE_WORK(&xr20m1172_work, xr20m1172_do_work,i2c_gpio_port);
-	//queue_work(xr20m1172_wq, &xr20m1172_work);
-	//	queue_delayed_work(xr20m1172_wq, &xr20m1172_work, HZ/1000);
-	// ÇåÖÐ¶Ï
 
 	wake_up_interruptible(&i2c_gpio_port->isr_wait);
 	
@@ -846,12 +887,7 @@ static int __init xr20m1172_gpio_init(void)
 	
 	i2c_thread = kthread_run(isr_thread, NULL, "i2c-thread");
 
-
-//while(1)
-
-//	msleep(100);
-//	i2c_gpio_byte_write(XR20M1172_ADDR, reg_info[XR20M1170REG_THR][0], 0xaa);
-
+printk("the FCR is %02x\n", i2c_gpio_byte_read(XR20M1172_ADDR, reg_info[XR20M1170REG_FCR][0]));
 	
 
 
