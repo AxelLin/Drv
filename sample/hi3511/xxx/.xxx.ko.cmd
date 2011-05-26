@@ -1,0 +1,1 @@
+cmd_/home/bamboo/work/ok2440/Drv/sample/hi3511/xxx/xxx.ko := arm-hismall-linux-ld -EL  -r -o /home/bamboo/work/ok2440/Drv/sample/hi3511/xxx/xxx.ko /home/bamboo/work/ok2440/Drv/sample/hi3511/xxx/xxx.o /home/bamboo/work/ok2440/Drv/sample/hi3511/xxx/xxx.mod.o

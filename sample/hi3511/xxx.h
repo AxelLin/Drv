@@ -1,25 +1,17 @@
 
+/**
+  * This is a driver for xxx device .
+  * File:			xxx.h
+  * Description:		Install all needed software from ubuntu software center.
+  * Created Date:	May 23th. 2011
+  * Last Modified:	Mayl 23th. 2011
+  * Author:	Wu DaoGuang  <wdgvip@gmail.com>
+  * Copywrite (C)	 GPL/GPL2 
+  *
+  *
+  */
 
-/*
- * 
- *  File:       	  	hi3511-spi.h
- *  Description:  	Hi3511 Spi host driver .
- *
- *  Created Date: 	April 21th. 2011
- *  Last Modified:	May 12th. 2011
- *
- *  Author:       		Wu DaoGuang 
- *  Copyright (c)  DaoGuang Wu <wdgvip@gmail.com>
- 
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- */
 
-#ifndef  __HI3511_SPI_H__
-#define  __HI3511_SPI_H__
 #include <linux/config.h>
 #include <linux/kernel.h>
 #include <linux/version.h>
@@ -35,7 +27,7 @@
 #include <linux/circ_buf.h>
 #include <linux/delay.h>
 #include <linux/interrupt.h>
-//#include <linux/platform_device.h>
+
 #include <linux/tty_flip.h>
 #include <linux/serial_core.h>
 #include <linux/proc_fs.h>
@@ -65,38 +57,11 @@
 
 
 
+#include <linux/i2c.h>
+#include <linux/i2c-id.h>
 
-void hi3511_spi_init(void );
-
-void SPISend(unsigned char val,  int channel);
-
-void SPIRecv(int channel);
-
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#include "xr20m1172.h"
+#include <linux/debug.h>
 
 
 
