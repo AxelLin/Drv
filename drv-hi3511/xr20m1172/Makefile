@@ -7,7 +7,7 @@
 obj-m := xr20m1172.o
 
 #KERNELDIR ?=/lib/modules/$(shell uname -r)/build
-KERNELDIR :=/home/bamboo/work/hi3511/linux-2.6.14
+KERNELDIR :=/home/bamboo/work/hi3511/Kernel/linux-2.6.14
 
 PWD       :=$(shell pwd)
 

@@ -1,7 +1,7 @@
-cmd_/work/hi3511/drv/tw2865/tw2865.o := arm-hismall-linux-gcc -Wp,-MD,/work/hi3511/drv/tw2865/.tw2865.o.d  -nostdinc -isystem /opt/hisi-linux/x86-arm/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include -D__KERNEL__ -Iinclude  -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -ffreestanding -O2     -fno-omit-frame-pointer -fno-optimize-sibling-calls -g -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=apcs-gnu -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm9tdmi  -msoft-float -Uarm -Wdeclaration-after-statement    -DMODULE -DKBUILD_BASENAME=tw2865 -DKBUILD_MODNAME=tw_2865 -c -o /work/hi3511/drv/tw2865/tw2865.o /work/hi3511/drv/tw2865/tw2865.c
+cmd_/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o := arm-hismall-linux-gcc -Wp,-MD,/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/.tw2865.o.d  -nostdinc -isystem /home/bamboo/work/hi3511/cross_tools/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include -D__KERNEL__ -Iinclude  -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -ffreestanding -O2     -fno-omit-frame-pointer -fno-optimize-sibling-calls -g -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=apcs-gnu -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm9tdmi  -msoft-float -Uarm -Wdeclaration-after-statement    -DMODULE -DKBUILD_BASENAME=tw2865 -DKBUILD_MODNAME=tw_2865 -c -o /home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o /home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.c
 
-deps_/work/hi3511/drv/tw2865/tw2865.o := \
-  /work/hi3511/drv/tw2865/tw2865.c \
+deps_/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o := \
+  /home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.c \
   include/linux/config.h \
     $(wildcard include/config/h.h) \
   include/linux/kernel.h \
@@ -9,7 +9,7 @@ deps_/work/hi3511/drv/tw2865/tw2865.o := \
     $(wildcard include/config/debug/spinlock/sleep.h) \
     $(wildcard include/config/printk.h) \
     $(wildcard include/config/sysctl.h) \
-  /opt/hisi-linux/x86-arm/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include/stdarg.h \
+  /home/bamboo/work/hi3511/cross_tools/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include/stdarg.h \
   include/linux/linkage.h \
   include/asm/linkage.h \
   include/linux/stddef.h \
@@ -302,10 +302,10 @@ deps_/work/hi3511/drv/tw2865/tw2865.o := \
   include/linux/klist.h \
   include/linux/pm.h \
   include/asm/arch/yx_iomultplex.h \
-  /work/hi3511/drv/tw2865/tw2865_def.h \
-  /work/hi3511/drv/tw2865/tw2865.h \
+  /home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865_def.h \
+  /home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.h \
   include/linux/compile.h \
 
-/work/hi3511/drv/tw2865/tw2865.o: $(deps_/work/hi3511/drv/tw2865/tw2865.o)
+/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o: $(deps_/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o)
 
-$(deps_/work/hi3511/drv/tw2865/tw2865.o):
+$(deps_/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o):

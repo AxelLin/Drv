@@ -1,0 +1,1 @@
+cmd_/home/bamboo/work/hi3511/drv/2008_0506_RT73_Linux_STA_Drv1.1.0.1/Module/rt73.ko := arm-hismall-linux-ld -EL  -r -o /home/bamboo/work/hi3511/drv/2008_0506_RT73_Linux_STA_Drv1.1.0.1/Module/rt73.ko /home/bamboo/work/hi3511/drv/2008_0506_RT73_Linux_STA_Drv1.1.0.1/Module/rt73.o /home/bamboo/work/hi3511/drv/2008_0506_RT73_Linux_STA_Drv1.1.0.1/Module/rt73.mod.o

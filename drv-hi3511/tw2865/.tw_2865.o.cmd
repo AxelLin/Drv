@@ -1,1 +1,1 @@
-cmd_/work/hi3511/drv/tw2865/tw_2865.o := arm-hismall-linux-ld -EL   -r -o /work/hi3511/drv/tw2865/tw_2865.o /work/hi3511/drv/tw2865/tw2865.o
+cmd_/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw_2865.o := arm-hismall-linux-ld -EL   -r -o /home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw_2865.o /home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o

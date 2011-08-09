@@ -1,4 +1,4 @@
-cmd_/home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.o := arm-hismall-linux-gcc -Wp,-MD,/home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/.xr20m1172.mod.o.d  -nostdinc -isystem /home/bamboo/work/hi3511/cross_tools/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include -D__KERNEL__ -Iinclude  -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -ffreestanding -O2     -fno-omit-frame-pointer -fno-optimize-sibling-calls -g -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=apcs-gnu -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm9tdmi  -msoft-float -Uarm -Wdeclaration-after-statement     -DKBUILD_BASENAME=xr20m1172 -DKBUILD_MODNAME=xr20m1172 -DMODULE -c -o /home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.o /home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.c
+cmd_/home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.o := arm-hismall-linux-gcc -Wp,-MD,/home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/.xr20m1172.mod.o.d  -nostdinc -isystem /opt/hisi-linux/x86-arm/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include -D__KERNEL__ -Iinclude  -mlittle-endian -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs -fno-strict-aliasing -fno-common -ffreestanding -O2     -fno-omit-frame-pointer -fno-optimize-sibling-calls -g -fno-omit-frame-pointer -mapcs -mno-sched-prolog -mabi=apcs-gnu -mno-thumb-interwork -D__LINUX_ARM_ARCH__=5 -march=armv5te -mtune=arm9tdmi  -msoft-float -Uarm -Wdeclaration-after-statement     -DKBUILD_BASENAME=xr20m1172 -DKBUILD_MODNAME=xr20m1172 -DMODULE -c -o /home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.o /home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.c
 
 deps_/home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.o := \
   /home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.c \
@@ -91,7 +91,7 @@ deps_/home/bamboo/work/ok2440/Drv/drv-hi3511/xr20m1172/xr20m1172.mod.o := \
     $(wildcard include/config/debug/spinlock/sleep.h) \
     $(wildcard include/config/printk.h) \
     $(wildcard include/config/sysctl.h) \
-  /home/bamboo/work/hi3511/cross_tools/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include/stdarg.h \
+  /opt/hisi-linux/x86-arm/gcc-3.4.3-uClibc-0.9.28/bin/../lib/gcc/arm-hisi-linux/3.4.3/include/stdarg.h \
   include/asm/byteorder.h \
   include/linux/byteorder/little_endian.h \
   include/linux/byteorder/swab.h \

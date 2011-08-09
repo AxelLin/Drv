@@ -1,0 +1,215 @@
+/*包含了这么多的头文件，也不知道有的有没有用*/
+#include <linux/platform_device.h>
+#include <linux/delay.h>
+#include <linux/fs.h>
+#include <linux/module.h>
+#include <linux/kernel.h>
+#include <linux/uaccess.h>
+#include <linux/clk.h>
+
+#include <asm-arm/arch-s3c2410/regs-gpio.h>
+#include <asm/io.h>
+#include <asm/arch/map.h>
+#include <asm-arm/plat-s3c24xx/clock.h> 
+#include <asm/arch/regs-clock.h>
+
+/*和引脚相关的宏定义*/
+#define DQ S3C2410_GPH9
+#define CFG_IN S3C2410_GPH9_INP
+#define CFG_OUT S3C2410_GPH9_OUTP
+
+static int opencount = 0;
+
+unsigned char init_ds(void)//ds18b20复位，返回0成功，返回1失败
+{
+  unsigned char ret = 0;
+
+  s3c2410_gpio_cfgpin(DQ, CFG_OUT);
+  s3c2410_gpio_pullup(DQ, 0);
+
+  s3c2410_gpio_setpin(DQ, 1);
+  s3c2410_gpio_setpin(DQ, 0);
+  udelay(500);
+
+  s3c2410_gpio_setpin(DQ, 1);
+  udelay(50);
+
+  s3c2410_gpio_cfgpin(DQ, CFG_IN);
+  udelay(200);
+  ret = s3c2410_gpio_getpin(DQ);
+
+  s3c2410_gpio_cfgpin(DQ, CFG_OUT);
+  s3c2410_gpio_pullup(DQ, 0);
+  s3c2410_gpio_setpin(DQ, 1);
+  
+  return ret;
+}
+
+void write_byte(char data)//向18b20写一个字节
+{
+  char i = 0;
+
+  s3c2410_gpio_cfgpin(DQ, CFG_OUT);
+  s3c2410_gpio_pullup(DQ, 1);
+
+  for(i=0; i<8; i++){
+    s3c2410_gpio_setpin(DQ, 0);
+    udelay(10);
+    s3c2410_gpio_setpin(DQ, 1);
+    s3c2410_gpio_setpin(DQ, data&0x01);
+    udelay(60);
+    s3c2410_gpio_setpin(DQ, 1);
+    udelay(2);
+    data >>= 1;
+  }
+}
+
+unsigned char read_byte(void)//从18b20读一个字节
+{
+  unsigned char i;
+  unsigned char data=0;
+
+  s3c2410_gpio_cfgpin(DQ, CFG_OUT);
+  s3c2410_gpio_pullup(DQ, 0);
+
+  for(i=0; i<8; i++)
+    {
+      s3c2410_gpio_setpin(DQ, 0);
+      udelay(1);
+      s3c2410_gpio_setpin(DQ, 1);
+
+      s3c2410_gpio_cfgpin(DQ, CFG_IN);
+
+      udelay(10);
+      
+      data >>= 1;
+      if(s3c2410_gpio_getpin(DQ))
+    data |= 0x80;
+
+      udelay(50);
+      s3c2410_gpio_cfgpin(DQ, CFG_OUT);
+      s3c2410_gpio_pullup(DQ, 0);
+      s3c2410_gpio_setpin(DQ, 1);
+      udelay(2);
+    }
+  return data;
+}
+  
+/*文件的写函数，没有实际意义，用户不能写文件*/    
+static ssize_t ds18b20_write(struct file *filp, const char *buffer,
+             size_t count, loff_t *ppos)
+{
+  return 10;//随便返回一个正整数
+}
+/*18b20的读函数，读出的温度只保留了整数*/
+static ssize_t ds18b20_read(struct file *filp, char *buffer,
+             size_t count, loff_t *ppos)
+{
+  unsigned char a=0, b=0;
+  unsigned int t=0;
+  unsigned char temp=0;
+  unsigned char flag;
+
+  flag = init_ds();
+  if(flag&0x01)
+    return -1;
+
+  write_byte(0x0cc);
+  write_byte(0x44);
+
+  udelay(500);
+
+  flag = init_ds();
+  if(flag&0x01)
+    return -1;
+
+  write_byte(0x0cc);
+  write_byte(0x0be);
+
+  a = read_byte();
+  b = read_byte();
+  
+  flag = init_ds();
+
+  temp = ((b & 0x7) << 4)) | (a >> 4);
+  copy_to_user(buffer, &temp, 1);
+  return 1;
+}
+
+static int ds18b20_open(struct inode *node, struct file *file)
+{
+  unsigned char flag;
+
+  if(opencount == 1)
+    return -EBUSY;
+  
+  flag = init_ds();
+
+  if(flag&0x01)
+    {
+      printk("uable to open device!\n");
+      return -1;
+    }
+  else
+   {
+      opencount++;
+      printk("device opened!\n");
+      return 0;
+   }
+}
+
+static int ds18b20_release(struct inode *node, struct file *file)
+{
+  opencount--;
+  printk("device released!\n");
+  return 0;
+}
+
+static struct file_operations ds18b20_fops = {
+  .owner = THIS_MODULE,
+  .write = ds18b20_write,
+  .read = ds18b20_read,
+  .release = ds18b20_release,
+  .open = ds18b20_open,
+};
+
+static int ds18b20_probe(struct platform_device *pdev)
+{
+  int ret;
+
+  s3c2410_gpio_cfgpin(DQ, CFG_OUT);
+  s3c2410_gpio_setpin(DQ, 0);
+  ret = register_chrdev(0, "ds18b20", &ds18b20_fops);
+  if(!ret)
+    printk("--------------Uable to register driver!-------------------\n");
+  
+  printk("Probe for ds18b20 finished!\n");
+  return 0;
+} 
+
+static struct platform_driver ds18b20 = 
+{
+  .probe = ds18b20_probe,
+  .driver = {
+    .name = "s3c2410-ds",
+    .owner = THIS_MODULE,
+  },
+};
+
+int __init ds18b20_init(void)
+{
+  printk("Initial driver for ds18b20......................\n");
+  return platform_driver_register(&ds18b20);
+}
+
+void __exit ds18b20_exit(void)
+{
+  return platform_driver_unregister(&ds18b20);
+}
+
+module_init(ds18b20_init);
+module_exit(ds18b20_exit);
+
+MODULE_AUTHOR("yanqiang-liu@163.com"); 
+MODULE_DESCRIPTION("DS18B20 driver for s3c2410");
+MODULE_LICENSE("GPL");

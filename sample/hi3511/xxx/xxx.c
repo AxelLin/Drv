@@ -176,10 +176,10 @@ static int hi3511_spi_init(void)
 	hi3511_spi_setup_cdev(hi3511_spi_devp, 0);
 	while(1)
 		{
-	SPISendByte(0x60, 1);
-	mdelay(200);
+	//SPISendByte(0x60, 1);
+//	mdelay(200);
 	temp = SPIRecvByte(1);
-	temp1 =SPIRecvByte(1);
+	//temp1 =SPIRecvByte(1);
 	
 		}
 	

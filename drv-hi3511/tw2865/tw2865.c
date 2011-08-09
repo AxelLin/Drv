@@ -599,7 +599,7 @@ int tw2865a_ioctl(struct inode *inode, struct file *file, unsigned int cmd, unsi
    	 tw2865_set_videomode tw2865_videomode;
 	tw2865_set_analogsetting AnalogSetting;
  	tw2865_set_1d1 tw2865_d1;
-
+//printk(KERN_ERR "the CMD from user is %d==\n",cmd);
 	switch(cmd)
 	{
 		case TW2865CMD_REG_DUMP:
@@ -883,23 +883,27 @@ int tw2865a_ioctl(struct inode *inode, struct file *file, unsigned int cmd, unsi
 			tw2865_write_table(TW2865A_I2C_ADDR, 0xf0, ucpTmp1, 6);
 			break;
 		case TW2865CMD_AUDIO_VOLUME:
+		//	printk("TW2865CMD_AUDIO_VOLUME in driver\n");
 			if(copy_from_user(&uiTmp1, argp, sizeof(uiTmp1)))
 		    {
-			    printk("\ttw2865_ERROR: WRONG cpy tmp is %x\n",uiTmp1);
+			    printk("tw2865_ERROR: WRONG cpy tmp is\n");
 			    return -1;
 		    }
-
+			//printk("uiTmp1======= ====%d===\n", uiTmp1);
 		    if(uiTmp1 > 15)
 		    {
 			    printk("ao output gain out of gain!\n");
 			    return -1;
 		    }
+			//printk("before write\n");
 		    RegVal = tw2865_byte_read(TW2865A_I2C_ADDR,0xdf)&0x0f;
 		    uiTmp1 = RegVal | ((uiTmp1 << 4) & 0xf0);
-		 //  printk("0xdf=%x\n", uiTmp1);
+		    printk("write to 0xdf\n ");
 		    tw2865_byte_write(TW2865A_I2C_ADDR,0xdf,uiTmp1);
 			RegVal = tw2865_byte_read(TW2865A_I2C_ADDR,0xdf);
-		//	printk("0xdf=%x\n", RegVal);
+			//printk("read from 0xdf=\n");
+
+			return RegVal;
 			break;	
 		case TW2865CMD_VIDEO_IN_ON:
 			if(copy_from_user(&uiTmp1, argp, sizeof(uiTmp1))) {

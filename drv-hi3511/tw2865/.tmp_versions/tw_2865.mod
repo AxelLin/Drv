@@ -1,2 +1,2 @@
-/work/hi3511/drv/tw2865/tw_2865.ko
-/work/hi3511/drv/tw2865/tw2865.o
+/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw_2865.ko
+/home/bamboo/work/ok2440/Drv/drv-hi3511/tw2865/tw2865.o
